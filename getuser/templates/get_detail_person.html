@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% csrf_token %}
+    <p>Name: {{ person.name }}</p>
+    <p>Username: {{ person.username }}</p>
+    <p>Phone number: {{ person.phone }}</p>
+    <p>City: {{ person.addr_city }}</p>
+</body>
+</html>

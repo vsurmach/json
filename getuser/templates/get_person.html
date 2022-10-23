@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+    {% if person_id < 10 %}
+        <button>Получить юзера</button>
+    {% else %}
+        <p>NO PERSONS</p>
+    {% endif %}
+    {% for i in all_person %}
+        <p><a href="{% url 'getuser:get_detail_person' i.id %}">{{ i.username }}</a></p>
+    {% endfor %}
+</form>
+<form action="{% url 'getuser:delete_persons' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-primary" value="delete_users" name="Удалить всех юзеров">
+</form>
+</body>
+</html>
