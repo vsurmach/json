@@ -5,17 +5,21 @@ import pprint
 from getuser.models import Chel
 
 
-url = 'https://jsonplaceholder.typicode.com/users'
+users = 'https://jsonplaceholder.typicode.com/users'
+posts = 'https://jsonplaceholder.typicode.com/posts'
+comments = 'https://jsonplaceholder.typicode.com/comments'
+
 person_id = 1
+comm_id = 0
+
 
 def get_user(request):
-
     global person_id
     person = Chel.objects.last()
     if person:
         person_id = person.id + 1
     if request.method == 'POST':
-        response = requests.get(f'{url}/{person_id}').json()
+        response = requests.get(f'{users}/{person_id}').json()
         # print(response)
         model = Chel()
         model.id = response['id']
@@ -33,13 +37,44 @@ def get_user(request):
 
 def delete_users(request):
     global person_id
-    if request.method == 'POST':
-        Chel.objects.all().delete()
-        person_id = 1
-        return redirect('getuser:get_persons')
+    Chel.objects.all().delete()
+    person_id = 1
+    return redirect('getuser:get_persons')
 
 
 def get_detail_user(request, id):
     person = Chel.objects.get(id=id)
-    context = {'person': person}
+    context = {'person': person,
+               'id': id,
+               }
     return render(request, 'get_detail_person.html', context)
+
+
+def get_posts(request, id):
+    response = requests.get(f'{posts}').json()
+    # print(response)
+    all_posts = []
+    for item in response:
+        # print(item)
+        if item['userId'] == id:
+            all_posts.append(item)
+    # print(all_posts)
+    context = {'all_posts': all_posts}
+    return render(request, 'get_posts.html', context)
+
+
+def get_comments(request, id):
+    response = requests.get(f'{comments}?postId={id}').json()
+    # print(response)
+    if request.method == 'POST':
+        all_comments = []
+        global comm_id
+        for item in range(len(response)):
+            all_comments.append(response[item])
+            if item == comm_id:
+                comm_id += 1
+                break
+        context = {'all_comments': all_comments}
+        return render(request, 'get_comments.html', context)
+    comm_id = 0
+    return render(request, 'get_comments.html')

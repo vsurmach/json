@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for item in all_posts %}
+    <p>Id post: {{ item.id }}</p>
+    <p>Title post: {{ item.title }}</p>
+    <p>Body post: {{ item.body }}</p>
+    <a href="{% url 'getuser:get_comments' item.id %}"><button>Получить комментарии</button></a>
+{% endfor %}
+</body>
+</html>

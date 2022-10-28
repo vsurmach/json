@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="" method="post" id="111">
+    {% csrf_token %}
+<button form="111">Получить коммент</button>
+</form>
+{% for item in all_comments %}
+    <p>Сomment's number: {{ item.id }}</p>
+    <p>Name: {{ item.name }}</p>
+    <p>Email: {{ item.email }}</p>
+    <p>Body: {{ item.body }}</p>
+    <br>
+{% endfor %}
+</body>
+</html>
